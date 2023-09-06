@@ -1,13 +1,7 @@
 /* 
 *
-*  This is an example implementation of a Flow Non-Fungible Token
-*  using the V2 standard.
-*  It is not part of the official standard but it assumed to be
-*  similar to how many NFTs would implement the core functionality.
-*
-*  This contract does not implement any sophisticated classification
-*  system for its NFTs. It defines a simple NFT with minimal metadata.
-*   
+* This is an example collection that can store any one type of NFT
+* See BasicNFT for an stupid implementation
 */
 
 import NonFungibleToken from "NonFungibleToken"
