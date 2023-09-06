@@ -7,34 +7,31 @@
   },
   "contracts": {
     "NFTStorefrontV2": "./contracts/NFTStorefrontV2.cdc",
-    "ExampleNFT": "./contracts/ExampleNFT.cdc",
-    "ExampleToken": "./contracts/ExampleToken.cdc",
+    "ExampleNFT": "./contracts/ExampleNFT-V2.cdc",
+    "MultipleNFT": "./contracts/MultipleNFT.cdc",
+    "ExampleToken": "./contracts/ExampleToken-V2.cdc",
+    "MultipleVaults": "./contracts/MultipleVaults.cdc",
     "FungibleToken": {
-      "source": "./contracts/FungibleToken.cdc",
       "aliases": {
         "emulator": "0xee82856bf20e2aa6"
       }
     },
     "FungibleTokenMetadataViews": {
-      "source": "./contracts/FungibleTokenMetadataViews.cdc",
       "aliases": {
         "emulator": "0xee82856bf20e2aa6"
       }
     },
     "NonFungibleToken": {
-      "source": "./contracts/NonFungibleToken.cdc",
       "aliases": {
         "emulator": "0xf8d6e0586b0a20c7"
       }
     },
     "MetadataViews": {
-      "source": "./contracts/MetadataViews.cdc",
       "aliases": {
         "emulator": "0xf8d6e0586b0a20c7"
       }
     },
     "ViewResolver": {
-      "source": "./contracts/ViewResolver.cdc",
       "aliases": {
         "emulator": "0xf8d6e0586b0a20c7"
       }
@@ -69,7 +66,9 @@
     "emulator": {
       "emulator-account": [
         "ExampleToken",
+        "MultipleVaults",
         "ExampleNFT",
+        "MultipleNFT",
         "NFTStorefrontV2"
       ]
     }

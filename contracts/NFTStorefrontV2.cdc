@@ -244,7 +244,7 @@ access(all) contract NFTStorefrontV2 {
         ///
         access(all) fun borrowNFT(): &{NonFungibleToken.NFT}? {
             let ref = self.nftProviderCapability.borrow()!.borrowNFT(self.details.nftID)
-            if ref.isInstance(self.details.nftType) && ref.id == self.details.nftID {
+            if ref.isInstance(self.details.nftType) && ref.getID() == self.details.nftID {
                 return ref as! &{NonFungibleToken.NFT}  
             } 
             return nil
@@ -287,7 +287,7 @@ access(all) contract NFTStorefrontV2 {
             pre {
                 self.details.purchased == false: "listing has already been purchased"
                 payment.isInstance(self.details.salePaymentVaultType): "payment vault is not requested fungible token"
-                payment.balance == self.details.salePrice: "payment vault does not contain requested price"
+                payment.getBalance() == self.details.salePrice: "payment vault does not contain requested price"
                 self.details.expiry > UInt64(getCurrentBlock().timestamp): "Listing is expired"
                 self.owner != nil : "Resource doesn't have the assigned owner"
             }
@@ -326,7 +326,7 @@ access(all) contract NFTStorefrontV2 {
             // Therefore we cannot trust the Collection resource behind the interface,
             // and we must check the NFT resource it gives us to make sure that it is the correct one.
             assert(nft.isInstance(self.details.nftType), message: "withdrawn NFT is not of specified type")
-            assert(nft.id == self.details.nftID, message: "withdrawn NFT does not have specified ID")
+            assert(nft.getID() == self.details.nftID, message: "withdrawn NFT does not have specified ID")
 
             // Fetch the duplicate listing for the given NFT
             // Access the StoreFrontManager resource reference to remove the duplicate listings if purchase would happen successfully.
@@ -453,7 +453,7 @@ access(all) contract NFTStorefrontV2 {
             // This will precondition assert if the token is not available.
             let nft = provider!.borrowNFT(self.details.nftID)
             assert(nft.isInstance(self.details.nftType), message: "token is not of specified type")
-            assert(nft.id == self.details.nftID, message: "token does not have specified ID")
+            assert(nft.getID() == self.details.nftID, message: "token does not have specified ID")
         }
     }
     
