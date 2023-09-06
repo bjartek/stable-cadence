@@ -32,4 +32,8 @@ access(all) contract interface MultipleNFT {
             result.getType() == collectionType: "The created collection is of the wrong type"
         }
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 986443d (added v2 standard contracts)
