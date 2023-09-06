@@ -2,7 +2,7 @@ import FungibleToken from "./utility/FungibleToken.cdc"
 import NonFungibleToken from "./utility/NonFungibleToken.cdc"
 
 
-pub contract NFTStorefrontV2 {
+access(all) contract NFTStorefrontV2 {
 
     access(all) event StorefrontInitialized(storefrontResourceID: UInt64)
     access(all) event StorefrontDestroyed(storefrontResourceID: UInt64)
@@ -48,8 +48,8 @@ pub contract NFTStorefrontV2 {
         }
     }
 
-    pub resource Listing {
-        
+    access(all) resource Listing {
+
         pub var storefrontID: UInt64
         pub var purchased: Bool
         pub let nftType: Type
@@ -76,7 +76,7 @@ pub contract NFTStorefrontV2 {
         access(all) fun getAllowedCommissionReceivers(): [Capability<&{FungibleToken.Receiver}>]? {
             return self.marketplacesCapability
         }
-        
+
         access(all) fun purchase(
             payment: @FungibleToken.Vault, 
             commissionRecipient: Capability<&{FungibleToken.Receiver}>?,
@@ -89,9 +89,9 @@ pub contract NFTStorefrontV2 {
                 self.expiry > UInt64(getCurrentBlock().timestamp): "Listing is expired"
                 self.owner != nil : "Resource doesn't have the assigned owner"
             }
-            
+
             self.purchased = true
-            
+
             if self.commissionAmount > 0.0 {
                 let commissionReceiver = commissionRecipient ?? panic("Commission recipient can't be nil")
                 if self.marketplacesCapability != nil {
@@ -122,7 +122,7 @@ pub contract NFTStorefrontV2 {
             assert(nft.id == self.nftID, message: "withdrawn NFT does not have specified ID")
 
             let storeFrontPublicRef = self.owner!.getCapability<&NFTStorefrontV2.Storefront{NFTStorefrontV2.StorefrontPublic}>(NFTStorefrontV2.StorefrontPublicPath)
-                                        .borrow() ?? panic("Unable to borrow the storeFrontManager resource")
+            .borrow() ?? panic("Unable to borrow the storeFrontManager resource")
             let duplicateListings = storeFrontPublicRef.getDuplicateListingIDs(nftType: self.nftType, nftID: self.nftID, listingID: self.uuid)
 
             for listingID in duplicateListings {
@@ -133,7 +133,7 @@ pub contract NFTStorefrontV2 {
 
             for cut in self.saleCuts {
                 if let receiver = cut.receiver.borrow() {
-                   let paymentCut <- payment.withdraw(amount: cut.amount)
+                    let paymentCut <- payment.withdraw(amount: cut.amount)
                     receiver.deposit(from: <-paymentCut)
                     if (residualReceiver == nil) {
                         residualReceiver = receiver
@@ -166,7 +166,7 @@ pub contract NFTStorefrontV2 {
         }
 
         destroy () {
-           
+
             if !self.purchased {
                 emit ListingCompleted(
                     listingResourceID: self.uuid,
@@ -198,7 +198,7 @@ pub contract NFTStorefrontV2 {
             commissionAmount: UFix64,
             expiry: UInt64
         ) {
-            
+
             pre {
                 // Validate the expiry
                 expiry > UInt64(getCurrentBlock().timestamp): "Expiry should be in the future"
@@ -206,20 +206,20 @@ pub contract NFTStorefrontV2 {
                 saleCuts.length > 0: "Listing must have at least one payment cut recipient"
             }
 
-             self.nftType = nftType,
-             self.nftUUID = nftUUID,
-             self.nftID = nftID,
-             self.salePaymentVaultType = salePaymentVaultType,
-             self.saleCuts = saleCuts,
-             self.storefrontID = storefrontID,
-             self.customID = customID,
-             self.commissionAmount = commissionAmount,
-             self.expiry =  expiry
-            
+            self.nftType = nftType,
+            self.nftUUID = nftUUID,
+            self.nftID = nftID,
+            self.salePaymentVaultType = salePaymentVaultType,
+            self.saleCuts = saleCuts,
+            self.storefrontID = storefrontID,
+            self.customID = customID,
+            self.commissionAmount = commissionAmount,
+            self.expiry =  expiry
+
             var salePrice = commissionAmount
             for cut in self.saleCuts {
                 cut.receiver.borrow()
-                    ?? panic("Cannot borrow receiver")
+                ?? panic("Cannot borrow receiver")
                 salePrice = salePrice + cut.amount
             }
             assert(salePrice > 0.0, message: "Listing must have non-zero price")
@@ -253,10 +253,10 @@ pub contract NFTStorefrontV2 {
             customID: String?,
             commissionAmount: UFix64,
             expiry: UInt64
-         ): UInt64 {
-            
+        ): UInt64 {
+
             let collectionRef = nftProviderCapability.borrow()
-                ?? panic("Could not borrow reference to collection")
+            ?? panic("Could not borrow reference to collection")
             let nftRef = collectionRef.borrowNFT(id: nftID)
 
             let uuid = nftRef.uuid
@@ -273,7 +273,7 @@ pub contract NFTStorefrontV2 {
                 commissionAmount: commissionAmount,
                 expiry: expiry
             )
-        
+
             let listingResourceID = listing.uuid
             let listingPrice = listing.salePrice
             let oldListing <- self.listings[listingResourceID] <- listing
@@ -309,14 +309,14 @@ pub contract NFTStorefrontV2 {
 
         access(StorefrontManager) fun removeListing(listingResourceID: UInt64) {
             let listing <- self.listings.remove(key: listingResourceID)
-                ?? panic("missing Listing")
+            ?? panic("missing Listing")
             self.removeDuplicateListing(nftIdentifier: listing.nftType.identifier, nftID: listing.nftID, listingResourceID: listingResourceID)
             // This will emit a ListingCompleted event.
             destroy listing
         }
 
         access(contract) fun addDuplicateListing(nftIdentifier: String, nftID: UInt64, listingResourceID: UInt64) {
-             if !self.listedNFTs.containsKey(nftIdentifier) {
+            if !self.listedNFTs.containsKey(nftIdentifier) {
                 self.listedNFTs.insert(key: nftIdentifier, {nftID: [listingResourceID]})
             } else {
                 if !self.listedNFTs[nftIdentifier]!.containsKey(nftID) {
@@ -331,7 +331,7 @@ pub contract NFTStorefrontV2 {
             let listingIndex = self.listedNFTs[nftIdentifier]![nftID]!.firstIndex(of: listingResourceID) ?? panic("Should contain the index")
             self.listedNFTs[nftIdentifier]![nftID]!.remove(at: listingIndex)
         }
-        
+
         access(contract) fun cleanup(listingResourceID: UInt64) {
             pre {
                 self.listings[listingResourceID] != nil: "could not find listing with given id"
@@ -355,7 +355,7 @@ pub contract NFTStorefrontV2 {
             return listingIDs
         }
 
-     
+
         access(all) fun cleanupPurchasedListings(listingResourceID: UInt64) {
             pre {
                 self.listings[listingResourceID] != nil: "could not find listing with given id"
@@ -367,7 +367,7 @@ pub contract NFTStorefrontV2 {
             destroy listing
         }
 
-   
+
         access(all) fun getDuplicateListingIDs(nftType: Type, nftID: UInt64, listingID: UInt64): [UInt64] {
             var listingIDs = self.getExistingListingIDs(nftType: nftType, nftID: nftID)
 
@@ -385,10 +385,10 @@ pub contract NFTStorefrontV2 {
                 listingIDs.remove(at:index)
                 return listingIDs
             } 
-           return []
+            return []
         }
 
-      
+
         access(all) fun cleanupExpiredListings(fromIndex: UInt64, toIndex: UInt64) {
             pre {
                 fromIndex <= toIndex : "Incorrect start index"
@@ -399,7 +399,7 @@ pub contract NFTStorefrontV2 {
             while index <= toIndex {
                 // There is a possibility that some index may not have the listing.
                 // becuase of that instead of failing the transaction, Execution moved to next index or listing.
-                
+
                 if let listing = self.borrowListing(listingResourceID: listingsIDs[index]) {
                     if listing.expiry <= UInt64(getCurrentBlock().timestamp) {
                         self.cleanup(listingResourceID: listingsIDs[index])
@@ -409,12 +409,12 @@ pub contract NFTStorefrontV2 {
             }
         } 
 
-     
+
         access(all) view fun borrowListing(listingResourceID: UInt64): &Listing{ListingPublic}? {
             return &self.listings[listingResourceID]
         }
 
-       
+
         destroy () {
             emit StorefrontDestroyed(storefrontResourceID: self.uuid)
         }
@@ -435,4 +435,4 @@ pub contract NFTStorefrontV2 {
         self.StorefrontPublicPath = /public/NFTStorefrontV2
     }
 }
- 
+
