@@ -8,36 +8,41 @@
   "contracts": {
     "NFTStorefrontV2": "./contracts/NFTStorefrontV2.cdc",
     "ExampleNFT": "./contracts/ExampleNFT.cdc",
+    "ExampleToken": "./contracts/ExampleToken.cdc",
     "FungibleToken": {
       "source": "./contracts/FungibleToken.cdc",
       "aliases": {
-        "emulator": "0xee82856bf20e2aa6",
-        "testnet": "0x9a0766d93b6608b7",
-        "mainnet": "0xf233dcee88fe0abe"
+        "emulator": "0xee82856bf20e2aa6"
+      }
+    },
+    "FungibleTokenMetadataViews": {
+      "source": "./contracts/FungibleTokenMetadataViews.cdc",
+      "aliases": {
+        "emulator": "0xee82856bf20e2aa6"
       }
     },
     "NonFungibleToken": {
       "source": "./contracts/NonFungibleToken.cdc",
       "aliases": {
-        "testnet": "0x631e88ae7f1d7c20",
-        "mainnet": "0x1d7e57aa55817448",
         "emulator": "0xf8d6e0586b0a20c7"
       }
     },
     "MetadataViews": {
       "source": "./contracts/MetadataViews.cdc",
       "aliases": {
-        "testnet": "0x631e88ae7f1d7c20",
-        "mainnet": "0x1d7e57aa55817448",
         "emulator": "0xf8d6e0586b0a20c7"
       }
     },
     "ViewResolver": {
       "source": "./contracts/ViewResolver.cdc",
       "aliases": {
-        "testnet": "0x631e88ae7f1d7c20",
-        "mainnet": "0x1d7e57aa55817448",
         "emulator": "0xf8d6e0586b0a20c7"
+      }
+    },
+    "FlowToken": {
+      "source": "./contracts/FlowToken.cdc",
+      "aliases": {
+        "emulator": "0x0ae53cb6e3f42a79"
       }
     }
   },
@@ -63,6 +68,7 @@
   "deployments": {
     "emulator": {
       "emulator-account": [
+        "ExampleToken",
         "ExampleNFT",
         "NFTStorefrontV2"
       ]
