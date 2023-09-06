@@ -255,7 +255,7 @@ access(all) contract ExampleToken: FungibleToken {
 
         // Create a public capability to the stored Vault that only exposes
         // the `balance` field and the `resolveView` method through the `Balance` interface
-        self.account.link<&ExampleToken.Vault>(
+        self.account.link<&{FungibleToken.Balance}>(
             self.VaultPublicPath,
             target: self.VaultStoragePath
         )
