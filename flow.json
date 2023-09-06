@@ -6,6 +6,8 @@
     }
   },
   "contracts": {
+    "UniversalCollection": "./contracts/UniversalCollection.cdc",
+    "BasicNFT": "./contracts/BasicNFT.cdc",
     "NFTStorefrontV2": "./contracts/NFTStorefrontV2.cdc",
     "MultipleNFT": "./contracts/MultipleNFT.cdc",
     "MultipleVaults": "./contracts/MultipleVaults.cdc",
@@ -65,12 +67,10 @@
   "deployments": {
     "emulator": {
       "emulator-account": [
-        "MultipleNFT",
-        "ExampleNFT",
-        "MultipleVaults",
-        "ExampleToken",
-        "NFTStorefrontV2"
-      ]
+        "UniversalCollection",
+        "BasicNFT"
+      ],
+      "emulator-first": []
     }
   }
 }
