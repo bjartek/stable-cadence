@@ -1,8 +1,4 @@
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 986443d (added v2 standard contracts)
 import FungibleToken from "FungibleToken"
 
 access(all) contract interface MultipleVaults {
@@ -25,8 +21,4 @@ access(all) contract interface MultipleVaults {
         }
     }
     
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 986443d (added v2 standard contracts)

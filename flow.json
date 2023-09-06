@@ -7,17 +7,10 @@
   },
   "contracts": {
     "NFTStorefrontV2": "./contracts/NFTStorefrontV2.cdc",
-<<<<<<< HEAD
-    "ExampleNFT": "./contracts/ExampleNFT-V2.cdc",
     "MultipleNFT": "./contracts/MultipleNFT.cdc",
-    "ExampleToken": "./contracts/ExampleToken-V2.cdc",
     "MultipleVaults": "./contracts/MultipleVaults.cdc",
-=======
     "ExampleNFT": "./contracts/ExampleNFT.cdc",
-    "MultipleNFT": "./contracts/MultipleNFT.cdc",
-    "MultipleVaults": "./contracts/MultipleVaults.cdc",
     "ExampleToken": "./contracts/ExampleToken.cdc",
->>>>>>> 986443d (added v2 standard contracts)
     "FungibleToken": {
       "aliases": {
         "emulator": "0xee82856bf20e2aa6"
@@ -72,17 +65,10 @@
   "deployments": {
     "emulator": {
       "emulator-account": [
-<<<<<<< HEAD
-        "ExampleToken",
-        "MultipleVaults",
-        "ExampleNFT",
-        "MultipleNFT",
-=======
         "MultipleNFT",
         "ExampleNFT",
         "MultipleVaults",
         "ExampleToken",
->>>>>>> 986443d (added v2 standard contracts)
         "NFTStorefrontV2"
       ]
     }
