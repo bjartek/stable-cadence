@@ -50,17 +50,17 @@ access(all) contract NFTStorefrontV2 {
 
     access(all) resource Listing {
 
-        pub var storefrontID: UInt64
-        pub var purchased: Bool
-        pub let nftType: Type
-        pub let nftUUID: UInt64
-        pub let nftID: UInt64
-        pub let salePaymentVaultType: Type
-        pub let salePrice: UFix64
-        pub let saleCuts: [SaleCut]
-        pub var customID: String?
-        pub let commissionAmount: UFix64
-        pub let expiry: UInt64
+        access(all)var storefrontID: UInt64
+        access(all)var purchased: Bool
+        access(all)let nftType: Type
+        access(all)let nftUUID: UInt64
+        access(all)let nftID: UInt64
+        access(all)let salePaymentVaultType: Type
+        access(all)let salePrice: UFix64
+        access(all)let saleCuts: [SaleCut]
+        access(all)var customID: String?
+        access(all)let commissionAmount: UFix64
+        access(all)let expiry: UInt64
 
         access(contract) let nftProviderCapability: Capability<&{NonFungibleToken.Provider, NonFungibleToken.CollectionPublic}>
         access(contract) let marketplacesCapability: [Capability<&{FungibleToken.Receiver}>]?
@@ -239,7 +239,7 @@ access(all) contract NFTStorefrontV2 {
 
     //entitlements: StorefrontManager
 
-    pub resource Storefront  {
+    access(all)resource Storefront  {
         access(contract) var listings: @{UInt64: Listing}
         access(contract) var listedNFTs: {String: {UInt64 : [UInt64]}}
 
