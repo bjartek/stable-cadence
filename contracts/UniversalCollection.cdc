@@ -47,11 +47,11 @@ access(all) contract UniversalCollection {
         /// Returns whether or not the given type is accepted by the collection
         /// A collection that can accept any type should just return true by default
         access(all) view fun isSupportedNFTType(type: Type): Bool {
-           if type == self.supportedType {
-            return true
-           } else {
-            return false
-           }
+            if type == self.supportedType {
+                return true
+            } else {
+                return false
+            }
         }
 
         /// Indicates that the collection is using UUID to key the NFT dictionary
@@ -62,7 +62,7 @@ access(all) contract UniversalCollection {
         /// withdraw removes an NFT from the collection and moves it to the caller
         access(NonFungibleToken.Withdrawable) fun withdraw(withdrawID: UInt64): @{NonFungibleToken.NFT} {
             let token <- self.ownedNFTs.remove(key: withdrawID)
-                ?? panic("Could not withdraw an NFT with the provided ID from the collection")
+            ?? panic("Could not withdraw an NFT with the provided ID from the collection")
 
             return <-token
         }
@@ -88,7 +88,7 @@ access(all) contract UniversalCollection {
         /// and adds the ID to the id array
         access(all) fun deposit(token: @{NonFungibleToken.NFT}) {
             if self.supportedType != token.getType() {
-              panic("Not supported")
+                panic("Not supported")
             }
 
             // add the new token to the dictionary which removes the old one
@@ -122,6 +122,11 @@ access(all) contract UniversalCollection {
             return self.ownedNFTs.keys
         }
 
+        /// getLength retusnt the number of items in the collection
+        access(all) view fun getLength(): Int {
+            return self.ownedNFTs.length
+        }
+
         access(all) view fun getIDsWithTypes(): {Type: [UInt64]} {
             let typeIDs: {Type: [UInt64]} = {}
             typeIDs[self.supportedType] = self.getIDs()
@@ -132,7 +137,7 @@ access(all) contract UniversalCollection {
         /// so that the caller can read its metadata and call its methods
         access(all) view fun borrowNFT(_ id: UInt64): &{NonFungibleToken.NFT} {
             let nftRef = (&self.ownedNFTs[id] as &{NonFungibleToken.NFT}?)
-                ?? panic("Could not borrow a reference to an NFT with the specified ID")
+            ?? panic("Could not borrow a reference to an NFT with the specified ID")
 
             return nftRef
         }
@@ -143,7 +148,7 @@ access(all) contract UniversalCollection {
 
         /// Borrow the view resolver for the specified NFT ID
         access(all) view fun borrowViewResolver(id: UInt64): &{ViewResolver.Resolver}? {
-           return (&self.ownedNFTs[id] as &{ViewResolver.Resolver}?)!
+            return (&self.ownedNFTs[id] as &{ViewResolver.Resolver}?)!
         }
 
         /// public function that anyone can call to create a new empty collection
@@ -164,4 +169,4 @@ access(all) contract UniversalCollection {
     }
 
 }
- 
+

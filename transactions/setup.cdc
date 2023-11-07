@@ -6,10 +6,10 @@ import "MetadataViews"
 
 transaction {
 
-    prepare(signer: AuthAccount) {
+    prepare(signer: auth(BorrowValue, IssueStorageCapabilityController, PublishCapability, SaveValue, UnpublishCapability) &Account) {
         let collectionData = BasicNFT.getCollectionData()
         // Return early if the account already has a collection
-        if signer.borrow<&{NonFungibleToken.Collection}>(from: collectionData.storagePath) != nil {
+        if signer.storage.borrow<&{NonFungibleToken.Collection}>(from: collectionData.storagePath) != nil {
             return
         }
 
@@ -17,11 +17,11 @@ transaction {
         let collection <- BasicNFT.createEmptyCollection()
 
         // save it to the account
-        signer.save(<-collection, to: collectionData.storagePath)
+        signer.storage.save(<-collection, to: collectionData.storagePath)
 
         // create a public capability for the collection
-        signer.link<&{NonFungibleToken.Collection}>( collectionData.publicPath, target: collectionData.storagePath)
+        let collectionCap= signer.capabilities.storage.issue<&{NonFungibleToken.Collection}>( collectionData.storagePath)
+        signer.capabilities.publish(collectionCap, at: collectionData.publicPath)
 
-        let minter =signer.borrow<&BasicNFT.Minter>(from: /storage/basicNFTMinter)
     }
 }
