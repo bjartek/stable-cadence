@@ -2,8 +2,9 @@ import NonFungibleToken from "NonFungibleToken"
 import MetadataViews from "MetadataViews"
 import ViewResolver from "ViewResolver"
 import UniversalCollection from "UniversalCollection"
+import UniversalCollectionMetadata from "UniversalCollectionMetadata"
 
-access(all) contract BasicNFT {
+access(all) contract BasicNFT : UniversalCollectionMetadata{
 
     access(all) event Minted(id: UInt64, uuid: UInt64, to: Address?, type: String)
 
@@ -56,49 +57,6 @@ access(all) contract BasicNFT {
     }
 
 
-    /// Function that returns all the Metadata Views implemented by a Non Fungible Token
-    ///
-    /// @return An array of Types defining the implemented views. This value will be used by
-    ///         developers to know which parameter to pass to the resolveView() method.
-    ///
-    access(all) view fun getViews(): [Type] {
-        return [
-        Type<MetadataViews.NFTCollectionData>(),
-        Type<MetadataViews.NFTCollectionDisplay>()
-        ]
-    }
-
-    /// Function that resolves a metadata view for this contract.
-    ///
-    /// @param view: The Type of the desired view.
-    /// @return A structure representing the requested view.
-    ///
-    access(all) fun resolveView(_ view: Type): AnyStruct? {
-        switch view {
-        case Type<MetadataViews.NFTCollectionData>():
-            return BasicNFT.getCollectionData()
-        case Type<MetadataViews.NFTCollectionDisplay>():
-            return BasicNFT.getCollectionDisplay()
-        }
-        return nil
-    }
-
-    access(all) view fun getCollectionData() : MetadataViews.NFTCollectionData {
-        return MetadataViews.NFTCollectionData(
-            storagePath: StoragePath(identifier: BasicNFT.identifier)!,
-            publicPath: PublicPath(identifier: BasicNFT.identifier)!,
-            providerPath: PrivatePath(identifier: BasicNFT.identifier)!,
-            publicCollection: Type<&UniversalCollection.Collection>(),
-            publicLinkedType: Type<&UniversalCollection.Collection>(),
-            providerLinkedType: Type<auth(NonFungibleToken.Withdrawable) &UniversalCollection.Collection>(),
-            createEmptyCollectionFunction: (fun(): @{NonFungibleToken.Collection} {
-                return <-BasicNFT.createEmptyCollection()
-            })
-        )
-
-
-    }
-
     access(all) view fun getCollectionDisplay() : MetadataViews.NFTCollectionDisplay {
 
         let media = MetadataViews.Media(
@@ -117,12 +75,6 @@ access(all) contract BasicNFT {
                 "twitter": MetadataViews.ExternalURL("https://twitter.com/flow_blockchain")
             }
         )
-    }
-    /// Return the NFT types that the contract defines
-    access(all) view fun getNFTTypes(): [Type] {
-        return [
-        Type<@BasicNFT.NFT>()
-        ]
     }
 
     access(all) resource Minter {

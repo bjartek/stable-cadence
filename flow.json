@@ -7,6 +7,7 @@
   },
   "contracts": {
     "UniversalCollection": "./contracts/UniversalCollection.cdc",
+    "UniversalCollectionMetadata": "./contracts/UniversalCollectionMetadata.cdc",
     "BasicNFT": "./contracts/BasicNFT.cdc",
     "NFTStorefrontV2": "./contracts/NFTStorefrontV2.cdc",
     "MultipleNFT": "./contracts/MultipleNFT.cdc",
@@ -68,6 +69,7 @@
     "emulator": {
       "emulator-account": [
         "UniversalCollection",
+        "UniversalCollectionMetadata",
         "BasicNFT"
       ],
       "emulator-first": []
