@@ -4,6 +4,9 @@ import "ViewResolver"
 import "UniversalCollection"
 import "UniversalCollectionMetadata"
 
+/// This example NFT uses two abstractions to be very terse
+/// - it implements the UniversalCollectionMetadata interfaces that gives it the required top level functions to get and resolve the standard views
+//  - the method to create an empty collection uses the UniversalCollection resource to abstract away all standard handling of how to store the NFT
 access(all) contract BasicNFT : UniversalCollectionMetadata{
 
     access(all) event Minted(id: UInt64, uuid: UInt64, to: Address?, type: String)
