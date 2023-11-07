@@ -4,9 +4,9 @@
 * See BasicNFT for an stupid implementation
 */
 
-import NonFungibleToken from "NonFungibleToken"
-import ViewResolver from "ViewResolver"
-import MetadataViews from "MetadataViews"
+import "NonFungibleToken"
+import "MetadataViews"
+import "ViewResolver"
 
 access(all) contract UniversalCollection {
 

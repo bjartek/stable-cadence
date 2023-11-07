@@ -1,6 +1,7 @@
-import MetadataViews from "MetadataViews"
-import NonFungibleToken from "NonFungibleToken"
-import UniversalCollection from "UniversalCollection"
+import "NonFungibleToken"
+import "MetadataViews"
+import "UniversalCollection"
+
 
 access(all) contract interface UniversalCollectionMetadata {
 
