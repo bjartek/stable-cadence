@@ -1,19 +1,13 @@
-
-import "NonFungibleToken"
 import "BasicNFT"
-import "UniversalCollection"
-import "MetadataViews"
 
 transaction(receiver:Address, name:String) {
 
-    prepare(signer: auth(Capabilities, Inbox) &Account) {
+    prepare(signer: auth(StorageCapabilities, PublishInboxCapability) &Account) {
         //we issue a capability from our storage
-        let storagePath = /storage/basicNFTMinter
-        let capability = signer.capabilities.storage.issue<&BasicNFT.Minter>(storagePath)
+        let capability = signer.capabilities.storage.issue<&BasicNFT.Minter>(BasicNFT.minterPath)
 
-
-        //we iterate through all controllers for this path and set the tag for the new one? is there a better way of doing this
-        signer.capabilities.storage.forEachController(forPath:storagePath, fun(scc: &StorageCapabilityController) : Bool {
+        //we iterate through all controllers for this path and set the tag for the new one.
+        signer.capabilities.storage.forEachController(forPath:BasicNFT.minterPath, fun(scc: &StorageCapabilityController) : Bool {
             if scc.tag == "" {
                 scc.setTag(name)
                 return false

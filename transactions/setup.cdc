@@ -6,7 +6,7 @@ import "MetadataViews"
 
 transaction {
 
-    prepare(signer: auth(BorrowValue, IssueStorageCapabilityController, PublishCapability, SaveValue, UnpublishCapability) &Account) {
+    prepare(signer: auth(BorrowValue, IssueStorageCapabilityController, PublishCapability, SaveValue) &Account) {
         let collectionData = BasicNFT.getCollectionData()
         // Return early if the account already has a collection
         if signer.storage.borrow<&{NonFungibleToken.Collection}>(from: collectionData.storagePath) != nil {
