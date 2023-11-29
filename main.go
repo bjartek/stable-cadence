@@ -44,7 +44,7 @@ func main() {
 		overflow.WithArg("name", bobName),
 	)
 
-	// Alice claims the minter from her inbox
+	// bob claims the minter from her inbox
 	o.Tx("claimMinter",
 		overflow.WithSigner("bob"),
 		overflow.WithArg("name", bobName),
