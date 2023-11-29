@@ -11,11 +11,7 @@ func main() {
 
 	o.Tx("setup", overflow.WithSigner("bob"))
 
-	o.Tx("mintNFT",
-		overflow.WithSignerServiceAccount(),
-		overflow.WithArg("receiver", "bob"),
-	)
-
+	// We create a minter and give it to alice
 	name := "basicNFTMinterAlice"
 	o.Tx("giveMinter",
 		overflow.WithSignerServiceAccount(),
@@ -23,19 +19,23 @@ func main() {
 		overflow.WithArg("name", name),
 	)
 
+	// Alice claims the minter from her inbox
 	o.Tx("claimMinter",
 		overflow.WithSigner("alice"),
 		overflow.WithArg("name", name),
 		overflow.WithArg("provider", "account"),
 	)
 
+	// We mint the NFT as this admin
 	o.Tx("mintNFTAsAdmin",
 		overflow.WithSigner("alice"),
 		overflow.WithArg("receiver", "bob"),
 	)
 
+	// the admin revokes the permission
 	o.Tx("revokeMinter", overflow.WithSignerServiceAccount())
 
+	// we get an error minting again
 	o.Tx("mintNFTAsAdmin",
 		overflow.WithSigner("alice"),
 		overflow.WithArg("receiver", "bob"),
