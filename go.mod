@@ -2,7 +2,7 @@ module github.com/bjartek/stable-cadence
 
 go 1.20
 
-require github.com/bjartek/overflow v1.14.1-0.20231017175906-6616698d7fd6
+require github.com/bjartek/overflow v1.14.1-0.20231125225305-7e5eaf0596d9
 
 require (
 	cloud.google.com/go/compute v1.19.1 // indirect

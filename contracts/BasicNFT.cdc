@@ -89,6 +89,22 @@ access(all) contract BasicNFT : UniversalCollectionMetadata{
         }
     }
 
+    access(all) resource Admin {
+
+        access(self) let cap : Capability<&Minter>
+
+        init(_ cap: Capability<&Minter>){
+            self.cap=cap
+        }
+
+        access(all) fun mintNFT(metadata: {String: AnyStruct}, receiver : &{NonFungibleToken.Receiver}){
+            let minter=self.cap.borrow()!
+            minter.mintNFT(metadata: metadata, receiver: receiver)
+        }
+    }
+    access(all) fun createAdmin(_ cap:Capability<&Minter>) : @Admin {
+        return <- create Admin(cap)
+    }
 
     access(all) fun createEmptyCollection(): @{NonFungibleToken.Collection} {
         return <- UniversalCollection.createEmptyCollection(identifier: self.identifier, type: Type<@BasicNFT.NFT>())
