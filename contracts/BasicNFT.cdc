@@ -98,7 +98,7 @@ access(all) contract BasicNFT : UniversalCollectionMetadata{
         }
 
         access(all) fun mintNFT(metadata: {String: AnyStruct}, receiver : &{NonFungibleToken.Receiver}){
-            let minter=self.cap.borrow()!
+            let minter=self.cap.borrow() ?? panic("Your minting access has been revoked")
             minter.mintNFT(metadata: metadata, receiver: receiver)
         }
     }
