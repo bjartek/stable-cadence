@@ -6,18 +6,16 @@ import "MetadataViews"
 
 transaction(receiver:Address) {
 
+    let minter :&BasicNFT.Minter
+    let collection : &{NonFungibleToken.Receiver}
+
     prepare(signer: auth(BorrowValue) &Account) {
-        let minter =signer.storage.borrow<&BasicNFT.Minter>(from: /storage/basicNFTMinter)!
-
+        self.minter =signer.storage.borrow<&BasicNFT.Minter>(from: /storage/basicNFTMinter)!
         let cd = BasicNFT.getCollectionData()
+        self.collection = getAccount(receiver).capabilities.borrow<&{NonFungibleToken.Receiver}>(cd.publicPath) ?? panic("Could not get receiver reference to the NFT Collection")
+    }
 
-        // Borrow the recipient's public NFT collection reference
-        let collection = getAccount(receiver)
-        .capabilities
-        .borrow<&{NonFungibleToken.Receiver}>(cd.publicPath)
-        ?? panic("Could not get receiver reference to the NFT Collection")
-
-        minter.mintNFT(metadata: {"Foo": "Bar"}, receiver:collection)
-
+    execute {
+        self.minter.mintNFT(metadata: {"Foo": "Bar"}, receiver:self.collection)
     }
 }

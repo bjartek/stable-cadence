@@ -9,6 +9,7 @@ import "UniversalCollectionMetadata"
 //  - the method to create an empty collection uses the UniversalCollection resource to abstract away all standard handling of how to store the NFT
 access(all) contract BasicNFT : UniversalCollectionMetadata{
 
+    access(all) let minterPath : StoragePath
     access(all) event Minted(id: UInt64, uuid: UInt64, to: Address?, type: String)
 
     access(all) let identifier: String
@@ -91,17 +92,13 @@ access(all) contract BasicNFT : UniversalCollectionMetadata{
 
     access(all) resource Admin {
 
-        access(self) let cap : Capability<&Minter>
+        access(all) let cap : Capability<&Minter>
 
         init(_ cap: Capability<&Minter>){
             self.cap=cap
         }
-
-        access(all) fun mintNFT(metadata: {String: AnyStruct}, receiver : &{NonFungibleToken.Receiver}){
-            let minter=self.cap.borrow() ?? panic("Your minting access has been revoked")
-            minter.mintNFT(metadata: metadata, receiver: receiver)
-        }
     }
+
     access(all) fun createAdmin(_ cap:Capability<&Minter>) : @Admin {
         return <- create Admin(cap)
     }
@@ -114,8 +111,8 @@ access(all) contract BasicNFT : UniversalCollectionMetadata{
         let minter <- create Minter()
         self.identifier="basicNFT"
 
-
-        self.account.storage.save(<-minter, to: /storage/basicNFTMinter)
+        self.minterPath=/storage/basicNFTMinter
+        self.account.storage.save(<-minter, to: self.minterPath)
     }
 }
 

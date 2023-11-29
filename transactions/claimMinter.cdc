@@ -10,6 +10,6 @@ transaction(provider:Address, name:String) {
 
         let admin <- BasicNFT.createAdmin(capability)
 
-        signer.storage.save(<- admin, to: /storage/basicNFTMinter)
+        signer.storage.save(<- admin, to: BasicNFT.minterPath)
     }
 }
