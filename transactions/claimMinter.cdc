@@ -1,4 +1,3 @@
-
 import "BasicNFT"
 
 transaction(provider:Address, name:String) {
@@ -8,8 +7,6 @@ transaction(provider:Address, name:String) {
         //we get the capability from our inbox
         let capability = signer.inbox.claim<&BasicNFT.Minter>(name, provider:provider)!
 
-        let admin <- BasicNFT.createAdmin(capability)
-
-        signer.storage.save(<- admin, to: BasicNFT.minterPath)
+        signer.storage.save(capability, to: BasicNFT.minterPath)
     }
 }
