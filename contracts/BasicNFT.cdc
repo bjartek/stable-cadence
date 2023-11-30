@@ -89,10 +89,6 @@ access(all) contract BasicNFT : UniversalCollectionMetadata{
         }
     }
 
-    access(all) fun createAdmin(_ cap:Capability<&Minter>) : @Admin {
-        return <- create Admin(cap)
-    }
-
     access(all) fun createEmptyCollection(): @{NonFungibleToken.Collection} {
         return <- UniversalCollection.createEmptyCollection(identifier: self.identifier, type: Type<@BasicNFT.NFT>())
     }
