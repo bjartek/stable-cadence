@@ -15,7 +15,7 @@ transaction(receiver:Address, name:String) {
             return true
         })
 
-        //we publis this capability to the inbox of the receiver
+        //we publish this capability to the inbox of the receiver
         signer.inbox.publish(capability, name:name, recipient:receiver)
     }
 }
