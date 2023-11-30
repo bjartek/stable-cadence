@@ -10,7 +10,7 @@ transaction(receiver:Address, name:String) {
         let capability = storage.issue<&BasicNFT.Minter>(BasicNFT.minterPath)
 
         //we set the name as tag so it is easy for us to revoke it later using a friendly name
-        let capcon =storage.getController(byCapabilityID:capability.id)!
+        let capcon = storage.getController(byCapabilityID:capability.id)!
         capcon.setTag(name)
 
         //we publish this capability to the inbox of the receiver
