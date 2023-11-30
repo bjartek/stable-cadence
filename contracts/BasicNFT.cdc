@@ -85,17 +85,7 @@ access(all) contract BasicNFT : UniversalCollectionMetadata{
         access(all) fun mintNFT(metadata: {String: AnyStruct}, receiver : &{NonFungibleToken.Receiver}){
             let nft <- create NFT(metadata: metadata)
             emit Minted(id: nft.getID(), uuid:nft.uuid, to: receiver.owner?.address, type: Type<@BasicNFT.NFT>().identifier)
-            //TODO:: emit event
             receiver.deposit(token: <- nft)
-        }
-    }
-
-    access(all) resource Admin {
-
-        access(all) let cap : Capability<&Minter>
-
-        init(_ cap: Capability<&Minter>){
-            self.cap=cap
         }
     }
 
