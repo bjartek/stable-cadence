@@ -9,6 +9,8 @@
     "UniversalCollection": "./contracts/UniversalCollection.cdc",
     "UniversalCollectionMetadata": "./contracts/UniversalCollectionMetadata.cdc",
     "BasicNFT": "./contracts/BasicNFT.cdc",
+    "ComplexNFT": "./contracts/ComplexNFT.cdc",
+    "CompositeNFT": "./contracts/CompositeNFT.cdc",
     "NFTStorefrontV2": "./contracts/NFTStorefrontV2.cdc",
     "MultipleNFT": "./contracts/MultipleNFT.cdc",
     "MultipleVaults": "./contracts/MultipleVaults.cdc",
@@ -70,7 +72,9 @@
       "emulator-account": [
         "UniversalCollection",
         "UniversalCollectionMetadata",
-        "BasicNFT"
+        "BasicNFT",
+        "ComplexNFT",
+        "CompositeNFT"
       ],
       "emulator-alice": [],
       "emulator-bob": []
