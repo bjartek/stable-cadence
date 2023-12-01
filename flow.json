@@ -9,7 +9,7 @@
     "UniversalCollection": "./contracts/UniversalCollection.cdc",
     "UniversalCollectionMetadata": "./contracts/UniversalCollectionMetadata.cdc",
     "BasicNFT": "./contracts/BasicNFT.cdc",
-    "ComplexNFT": "./contracts/ComplexNFT.cdc",
+    "Equipment": "./contracts/Equipment.cdc",
     "CompositeNFT": "./contracts/CompositeNFT.cdc",
     "NFTStorefrontV2": "./contracts/NFTStorefrontV2.cdc",
     "MultipleNFT": "./contracts/MultipleNFT.cdc",
@@ -73,7 +73,7 @@
         "UniversalCollection",
         "UniversalCollectionMetadata",
         "BasicNFT",
-        "ComplexNFT",
+        "Equipment",
         "CompositeNFT"
       ],
       "emulator-alice": [],

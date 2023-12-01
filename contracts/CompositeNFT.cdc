@@ -4,7 +4,7 @@ import "ViewResolver"
 import "BasicNFT"
 import "UniversalCollection"
 import "UniversalCollectionMetadata"
-import "ComplexNFT"
+import "Equipment"
 
 /// This example NFT uses two abstractions to be very terse
 /// - it implements the UniversalCollectionMetadata interfaces that gives it the required top level functions to get and resolve the standard views
@@ -17,7 +17,7 @@ access(all) contract CompositeNFT : UniversalCollectionMetadata{
     access(all) let identifier: String
 
     /// The only thing that an NFT really needs to have is this resource definition
-    access(all) resource NFT: NonFungibleToken.NFT, ViewResolver.Resolver {
+    access(all) resource NFT: NonFungibleToken.NFT, ViewResolver.Resolver, Equipment.Collection {
         /// Arbitrary trait mapping metadata
         access(self) let metadata: {String: AnyStruct}
 
@@ -37,6 +37,15 @@ access(all) contract CompositeNFT : UniversalCollectionMetadata{
         /// Gets the ID of the NFT, which here is the UUID
         access(all) view fun getID(): UInt64 { return self.uuid }
 
+        access(all) 
+        fun getEquipment(type:Type, id:UInt64) : &{NonFungibleToken.NFT}? {
+
+            if type != BasicNFT.NFT.getType() {
+                return nil
+            }
+            return (&self.subBasic[id] as &{NonFungibleToken.NFT}?)
+        }
+
         /// Uses the basic NFT views
         access(all) view fun getViews(): [Type] {
             return [
@@ -44,7 +53,7 @@ access(all) contract CompositeNFT : UniversalCollectionMetadata{
             Type<MetadataViews.Traits>(),
             Type<MetadataViews.NFTCollectionDisplay>(),
             Type<MetadataViews.NFTCollectionData>(),
-            Type<ComplexNFT.Content>()
+            Type<Equipment.Content>()
             ]
         }
 
@@ -64,10 +73,9 @@ access(all) contract CompositeNFT : UniversalCollectionMetadata{
                 return CompositeNFT.getCollectionData()
             case Type<MetadataViews.NFTCollectionDisplay>():
                 return CompositeNFT.getCollectionDisplay()
-            case Type<ComplexNFT.Content>():
-                let subNfts : {Type : [UInt64]}  ={}
-                subNfts[BasicNFT.NFT.getType()]=self.subBasic.keys
-                return ComplexNFT.Content(subNfts)
+            case Type<Equipment.Content>():
+                let id=self.subBasic.keys[0]
+                return Equipment.Content([Equipment.Item(type:BasicNFT.NFT.getType(), id: id, data: {})])
             }
             return nil
         }
