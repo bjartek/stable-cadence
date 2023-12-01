@@ -12,7 +12,7 @@ access(all) struct NFT {
     access(all) let thumbnail: String
     access(all) let owner: Address
     access(all) let type: String
-    access(all) let equipment: Equipment.Content?
+    access(all) let equipment: [Equipment.Item]
 
     init(
         name: String,
@@ -27,7 +27,7 @@ access(all) struct NFT {
         self.thumbnail = thumbnail
         self.owner = owner
         self.type = nftType
-        self.equipment=equipment
+        self.equipment=equipment?.equipment ?? []
     }
 }
 
@@ -50,7 +50,7 @@ access(all) fun main(address: Address, id: UInt64): NFT {
 
     return NFT(
         name: display.name,
-        description: Type<@CompositeNFT.NFT>().identifier,
+        description: display.description,
         thumbnail: display.thumbnail.uri(),
         owner: owner,
         nftType: nftType.identifier,

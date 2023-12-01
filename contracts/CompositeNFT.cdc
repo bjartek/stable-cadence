@@ -75,7 +75,7 @@ access(all) contract CompositeNFT : UniversalCollectionMetadata{
                 return CompositeNFT.getCollectionDisplay()
             case Type<Equipment.Content>():
                 let id=self.subBasic.keys[0]
-                let typ=BasicNFT.NFT.getType().identifier
+                let typ=Type<@BasicNFT.NFT>().identifier
                 let item = Equipment.Item(type:typ, id:id, data:{})
                 return Equipment.Content([item])
             }
