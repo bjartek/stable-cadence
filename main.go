@@ -28,11 +28,17 @@ func main() {
 		panic(err)
 	}
 
-	o.Tx("mintCompositeNFT",
+	cres := o.Tx("mintCompositeNFT",
 		overflow.WithSignerServiceAccount(),
 		overflow.WithArg("receiver", "alice"),
 		overflow.WithArg("basicID", id),
 	)
+
+	cid, err := cres.GetIdFromEvent("Minted", "id")
+	if err != nil {
+		panic(err)
+	}
+	o.Script("getNFT", overflow.WithArg("address", "alice"), overflow.WithArg("id", cid))
 }
 
 func pause() {

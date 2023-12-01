@@ -37,7 +37,7 @@ transaction {
         signer.storage.save(<-ccollection, to: ccollectionData.storagePath)
 
         // create a public capability for the collection
-        let ccollectionCap= signer.capabilities.storage.issue<&{NonFungibleToken.Collection}>( collectionData.storagePath)
+        let ccollectionCap= signer.capabilities.storage.issue<&{NonFungibleToken.Collection}>( ccollectionData.storagePath)
         signer.capabilities.publish(ccollectionCap, at: ccollectionData.publicPath)
 
 

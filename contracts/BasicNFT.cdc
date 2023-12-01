@@ -10,6 +10,7 @@ import "UniversalCollectionMetadata"
 access(all) contract BasicNFT : UniversalCollectionMetadata{
 
     access(all) let minterPath : StoragePath
+
     access(all) event Minted(id: UInt64, uuid: UInt64, to: Address?, type: String)
 
     access(all) let identifier: String

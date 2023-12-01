@@ -61,10 +61,10 @@ access(all) contract CompositeNFT : UniversalCollectionMetadata{
             switch view {
             case Type<MetadataViews.Display>():
                 return MetadataViews.Display(
-                    name: self.metadata["name"] as! String,
-                    description: self.metadata["description"] as! String,
+                    name: (self.metadata["name"] as! String?)!,
+                    description: (self.metadata["description"] as! String?)!,
                     thumbnail: MetadataViews.HTTPFile(
-                        url: self.metadata["thumbnail"] as! String
+                        url: (self.metadata["thumbnail"] as! String?)!
                     )
                 )
             case Type<MetadataViews.Traits>():
@@ -75,7 +75,9 @@ access(all) contract CompositeNFT : UniversalCollectionMetadata{
                 return CompositeNFT.getCollectionDisplay()
             case Type<Equipment.Content>():
                 let id=self.subBasic.keys[0]
-                return Equipment.Content([Equipment.Item(type:BasicNFT.NFT.getType(), id: id, data: {})])
+                let typ=BasicNFT.NFT.getType().identifier
+                let item = Equipment.Item(type:typ, id:id, data:{})
+                return Equipment.Content([item])
             }
             return nil
         }

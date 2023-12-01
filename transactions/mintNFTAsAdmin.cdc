@@ -16,6 +16,6 @@ transaction(receiver:Address) {
     }
 
     execute {
-        self.minter.mintNFT(metadata: {"Foo": "Bar"}, receiver:self.collection)
+        self.minter.mintNFT(metadata: {"name": "BasicNFT", "description": "This is a basic nft", "thumbnail" : "http://thumb.nail"}, receiver:self.collection)
     }
 }
