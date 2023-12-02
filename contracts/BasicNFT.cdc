@@ -43,12 +43,13 @@ access(all) contract BasicNFT : UniversalCollectionMetadata{
             switch view {
             case Type<MetadataViews.Display>():
                 return MetadataViews.Display(
-                    name: self.metadata["name"] as! String,
-                    description: self.metadata["description"] as! String,
+                    name: (self.metadata["name"] as! String?)!,
+                    description: (self.metadata["description"] as! String?)!,
                     thumbnail: MetadataViews.HTTPFile(
-                        url: self.metadata["thumbnail"] as! String
+                        url: (self.metadata["thumbnail"] as! String?)!
                     )
                 )
+
             case Type<MetadataViews.Traits>():
                 return MetadataViews.dictToTraits(dict: self.metadata, excludedNames: nil)
             case Type<MetadataViews.NFTCollectionData>():

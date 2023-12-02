@@ -22,10 +22,10 @@ access(all) contract Equipment {
     struct Content {
 
         access(all)
-        let equipment: [Item]
+        let items: [Item]
 
         init(_ items: [Item]) {
-            self.equipment=items
+            self.items=items
         }
     }
 

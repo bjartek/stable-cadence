@@ -4,7 +4,6 @@ import (
 	"fmt"
 
 	"github.com/bjartek/overflow"
-	"github.com/fatih/color"
 )
 
 func main() {
@@ -39,16 +38,11 @@ func main() {
 		panic(err)
 	}
 	o.Script("getNFT", overflow.WithArg("address", "alice"), overflow.WithArg("id", cid))
-}
 
-func pause() {
-	fmt.Println()
-	color.Yellow("press any key to continue")
-	fmt.Scanln()
-	fmt.Print("\033[H\033[2J")
-}
-
-func message(msg string) {
-	fmt.Println()
-	color.Green(msg)
+	o.Script("getEquipment",
+		overflow.WithArg("address", "alice"),
+		overflow.WithArg("id", cid),
+		overflow.WithArg("equipmentType", "A.f8d6e0586b0a20c7.BasicNFT.NFT"),
+		overflow.WithArg("equipmentId", id),
+	)
 }

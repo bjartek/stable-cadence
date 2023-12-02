@@ -40,7 +40,7 @@ access(all) contract CompositeNFT : UniversalCollectionMetadata{
         access(all) 
         fun getEquipment(type:Type, id:UInt64) : &{NonFungibleToken.NFT}? {
 
-            if type != BasicNFT.NFT.getType() {
+            if type != Type<@BasicNFT.NFT>() {
                 return nil
             }
             return (&self.subBasic[id] as &{NonFungibleToken.NFT}?)
