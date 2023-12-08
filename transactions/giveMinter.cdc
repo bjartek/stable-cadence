@@ -3,8 +3,10 @@ import "BasicNFT"
 transaction(receiver:Address, name:String) {
 
     prepare(signer: auth(StorageCapabilities, PublishInboxCapability) &Account) {
+
+        let storage= signer.capabilities.storage
         //we issue a capability from our storage
-        let capability = signer.capabilities.storage.issue<&BasicNFT.Minter>(BasicNFT.minterPath)
+        let capability = storage.issue<&BasicNFT.Minter>(BasicNFT.minterPath)
 
         //we set the name as tag so it is easy for us to revoke it later using a friendly name
         let capcon = storage.getController(byCapabilityID:capability.id)!
