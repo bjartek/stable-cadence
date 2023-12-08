@@ -15,6 +15,7 @@
     "ExampleNFT": "./contracts/ExampleNFT.cdc",
     "ExampleToken": "./contracts/ExampleToken.cdc",
     "FungibleToken": {
+      "source": "./contracts/FungibleToken.cdc",
       "aliases": {
         "emulator": "0xee82856bf20e2aa6"
       }
@@ -25,16 +26,19 @@
       }
     },
     "NonFungibleToken": {
+      "source": "./contracts/NonFungibleToken.cdc",
       "aliases": {
         "emulator": "0xf8d6e0586b0a20c7"
       }
     },
     "MetadataViews": {
+      "source": "./contracts/MetadataViews.cdc",
       "aliases": {
         "emulator": "0xf8d6e0586b0a20c7"
       }
     },
     "ViewResolver": {
+      "source": "./contracts/ViewResolver.cdc",
       "aliases": {
         "emulator": "0xf8d6e0586b0a20c7"
       }
