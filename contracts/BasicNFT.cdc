@@ -1,18 +1,18 @@
 import "NonFungibleToken"
 import "MetadataViews"
 import "ViewResolver"
-import "UniversalCollection"
-import "UniversalCollectionMetadata"
+import "SimpleNFT"
 
-/// This example NFT uses two abstractions to be very terse
-/// - it implements the UniversalCollectionMetadata interfaces that gives it the required top level functions to get and resolve the standard views
-//  - the method to create an empty collection uses the UniversalCollection resource to abstract away all standard handling of how to store the NFT
-access(all) contract BasicNFT : UniversalCollectionMetadata{
+//This NFT implements the interface SimpleNFT that is a convenience to make some common operations for NFTs easier
+access(all) contract BasicNFT : SimpleNFT{
+
 
     access(all) let minterPath : StoragePath
     access(all) event Minted(id: UInt64, uuid: UInt64, to: Address?, type: String)
 
+    //these two fields are required to be set in a SimpleNFT, they tell what type of NFT that is produced and where to store it
     access(all) let identifier: String
+    access(all) let nftType: Type
 
     /// The only thing that an NFT really needs to have is this resource definition
     access(all) resource NFT: NonFungibleToken.NFT, ViewResolver.Resolver {
@@ -89,13 +89,10 @@ access(all) contract BasicNFT : UniversalCollectionMetadata{
         }
     }
 
-    access(all) fun createEmptyCollection(): @{NonFungibleToken.Collection} {
-        return <- UniversalCollection.createEmptyCollection(identifier: self.identifier, type: Type<@BasicNFT.NFT>())
-    }
-
     init() {
         let minter <- create Minter()
         self.identifier="basicNFT"
+        self.nftType= Type<@BasicNFT.NFT>() //we cannot have generics so we make a poor mans generics
 
         self.minterPath=/storage/basicNFTMinter
         self.account.storage.save(<-minter, to: self.minterPath)
